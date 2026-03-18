@@ -4,77 +4,254 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>M Solutions and Creations</title>
-  <meta name="description" content="Intro page for M Solutions and Creations - AI chatbots and automation solutions" />
+  <meta name="description" content="Automation + AI chatbot solutions. Intro page with FAQ." />
   <style>
-    body{margin:0;font-family:Arial, Helvetica, sans-serif;color:#111;background:#f7f8fa;}
-    header{padding:48px 16px;text-align:center;background:#0d47a1;color:#fff;}
-    header h1{margin:0;font-size:42px;letter-spacing:1px;}
-    header p{margin:10px auto 0;max-width:680px;opacity:.95;font-size:16px;line-height:1.5;}
-    .container{max-width:980px;margin:0 auto;padding:24px 16px 64px;}
-    .card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:24px;margin-top:16px;box-shadow:0 10px 20px rgba(0,0,0,.03);}
-    .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
-    h2{margin:0 0 8px;font-size:22px;}
-    ul{margin:10px 0 0;padding-left:18px;}
-    .faq dt{font-weight:700;margin-top:14px;}
-    .faq dd{margin:4px 0 0 0;line-height:1.6;color:#333;}
-    footer{padding:24px 16px;text-align:center;color:#555;font-size:13px;}
-    footer a{color:#0d47a1;text-decoration:none;}
+    :root{
+      --bg:#0b1020;
+      --card: rgba(255,255,255,.06);
+      --cardBorder: rgba(255,255,255,.1);
+      --text:#e8edf7;
+      --muted: rgba(232,237,247,.86);
+      --shadow: 0 16px 55px rgba(0,0,0,.25);
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: .2px;
+    }
+    *{ box-sizing:border-box; }
+
+    .hero{
+      position:relative;
+      padding: clamp(3.25rem, 7vh, 5rem) 1.5rem;
+      text-align:center;
+      overflow:hidden;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-35%;
+      background: conic-gradient(#7c3aed, #06b6d4, #22c55e, #f59e0b, #7c3aed);
+      filter: blur(72px);
+      opacity: .55;
+      transform: rotate(0deg);
+      animation: spin 18s linear infinite;
+    }
+
+    @keyframes spin{ to { transform: rotate(360deg);} }
+
+    .ring{
+      position:absolute;
+      left:50%; top:50%;
+      width: 560px;
+      height: 560px;
+      transform: translate(-50%,-50%);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.15);
+      animation: pulse 4.8s ease-in-out infinite;
+      opacity: .65;
+    }
+
+    @keyframes pulse{
+      0%,100%{ transform: translate(-50%,-50%) scale(1); }
+      50%{ transform: translate(-50%,-50%) scale(1.08); }
+    }
+
+    .inner{ position:relative; max-width:980px; margin: 0 auto; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.58rem 1.05rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(8px);
+      color: rgba(232,237,247,.92);
+    }
+
+    .title{
+      font-weight: 800;
+      font-size: clamp(2.45rem, 5vw, 3.65rem);
+      margin: .75rem 0 .45rem;
+    }
+
+    .subtitle{
+      margin:0 auto 1.7rem;
+      max-width: 62ch;
+      line-height: 1.6;
+      color: var(--muted);
+      opacity: .95;
+    }
+
+    .cta{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.9rem;
+    }
+
+    .btn{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      padding:.78rem 1.05rem;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .btn:hover{ transform: translateY(-2px); background: rgba(255,255,255,.12); }
+
+    .btn.primary{
+      background: linear-gradient(135deg, #22c55e, #06b6d4, #7c3aed);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .btn.primary:hover{ filter: brightness(1.06); }
+
+    .section{ padding: 3.1rem 1.5rem; }
+    .section.light{ background: rgba(255,255,255,.03); border-bottom:1px solid rgba(255,255,255,.12); }
+
+    .wrap{ max-width: 1040px; margin: 0 auto; }
+
+    .grid{ display:grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap:1rem; }
+    .card{
+      grid-column: span 4;
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 18px;
+      padding: 1.1rem 1.2rem;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .card.show{ opacity:1; transform: translateY(0); }
+    .card h3{ margin:0 0 .55rem; font-size: 1.05rem; }
+    .card p{ margin:0; line-height:1.55; color: var(--muted); }
+    .icon{ width:40px; height:40px; border-radius: 14px; display:grid; place-items:center; background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); margin-bottom:.8rem; }
+
+    .approach h2, .faq h2{ margin:0 0 .75rem; font-size: 1.2rem; }
+    .approach p{ margin:0; line-height:1.65; color: var(--muted); }
+
+    .faq{ margin-top: 2.2rem; border-top:1px solid rgba(255,255,255,.12); padding-top: 1.7rem; }
+    details{ background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: .85rem 1rem; margin-top: .9rem; transition: transform .2s ease, background .2s ease; }
+    details:hover{ transform: translateY(-2px); background: rgba(255,255,255,.07); }
+
+    summary{ cursor:pointer; font-weight: 760; display:flex; align-items:center; justify-content:space-between; gap:.8rem; }
+    summary::-webkit-details-marker { display:none; }
+    summary::marker{ content:""; }
+    .chev{ opacity:.85; transition: transform .2s ease; }
+    details[open] .chev{ transform: rotate(90deg); }
+
+    .footer{ text-align:center; padding: 2.6rem 1rem 3.2rem; opacity:.8; background: rgba(255,255,255,.03); border-top:1px solid rgba(255,255,255,.12); font-size:.87rem; }
+
+    @media (max-width: 760px){
+      .card{ grid-column: span 12; }
+      .ring{ width: 420px; height: 420px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      html{ scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>M Solutions and Creations</h1>
-    <p>Simple, effective automation and AI chatbot solutions. This page is an introduction to our services with a quick FAQ.</p>
+  <header class="hero">
+    <span class="ring" aria-hidden="true"></span>
+    <div class="inner">
+      <div class="badge">Automation + AI • Built to be understood</div>
+      <h1 class="title">M Solutions and Creations</h1>
+      <p class="subtitle">
+        Automation workflows and AI chatbot flows that are clean, fast, and reliable — with simple handoff documentation so you can own the process.
+      </p>
+      <div class="cta">
+        <button class="btn primary" onclick="scrollToSection('work')">See what we do</button>
+        <button class="btn" onclick="scrollToSection('faq')">Quick FAQ</button>
+      </div>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="grid">
-      <div class="card">
-        <h2>What we do</h2>
-        <ul>
-          <li>AI chatbots (customer support, intake, FAQs)</li>
-          <li>Automation workflows (notifications, routing, reminders)</li>
-          <li>Integration support (connecting tools and APIs)</li>
-          <li>Consulting for small business automation</li>
-        </ul>
+  <section class="section light" id="work">
+    <div class="wrap">
+      <div class="grid">
+        <div class="card" data-delay="0">
+          <div class="icon" aria-hidden="true">🤖</div>
+          <h3>AI chatbots</h3>
+          <p>Customer support, lead intake, and FAQ flows that keep answers consistent.</p>
+        </div>
+        <div class="card" data-delay="70">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3>Automation workflows</h3>
+          <p>Alerts, routing, reminders, and lightweight approvals—so work moves without manual check-ins.</p>
+        </div>
+        <div class="card" data-delay="120">
+          <div class="icon" aria-hidden="true">🧩</div>
+          <h3>Integration support</h3>
+          <p>Connect the tools you already use and ship an MVP quickly, with a clear handoff plan.</p>
+        </div>
       </div>
 
-      <div class="card">
-        <h2>Our approach</h2>
-        <ul>
-          <li>No-code / low-code first when possible</li>
-          <li>Clear documentation and simple handoff</li>
-          <li>Transparent timelines and deliverables</li>
-          <li>Privacy-minded setups with minimal data exposure</li>
-        </ul>
+      <div class="section" style="padding:2.4rem 0 0">
+        <div class="approach">
+          <h2>Our approach</h2>
+          <p>We go no-code/low-code first when possible, keep timelines transparent, and stay privacy-minded from day one.</p>
+        </div>
+
+        <div class="faq" id="faq">
+          <h2>Quick FAQ</h2>
+          <details>
+            <summary>What services do you offer?<span class="chev" aria-hidden="true">›</span></summary>
+            <p style="margin:.65rem 0 0; line-height:1.6; color:var(--muted)">
+              AI chatbot flows, automation workflows, integration support, and small milestone consulting.
+            </p>
+          </details>
+          <details>
+            <summary>How do you price?<span class="chev" aria-hidden="true">›</span></summary>
+            <p style="margin:.65rem 0 0; line-height:1.6; color:var(--muted)">
+              Pricing depends on scope. We keep engagements small, focused, and transparent.
+            </p>
+          </details>
+          <details>
+            <summary>How do we get started?<span class="chev" aria-hidden="true">›</span></summary>
+            <p style="margin:.65rem 0 0; line-height:1.6; color:var(--muted)">
+              Tell us your workflow and the tools you use. We’ll suggest an initial milestone plan.
+            </p>
+          </details>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card">
-        <h2>Quick FAQ</h2>
-        <dl class="faq">
-          <dt>What services do you offer?</dt>
-          <dd>AI chatbot flows, automation workflows, and integration support for business processes.</dd>
-
-          <dt>How do you price?</dt>
-          <dd>Pricing depends on scope. We keep the engagement small and focused.</dd>
-
-          <dt>How do we get started?</dt>
-          <dd>Share your desired workflow and tools. We’ll suggest an initial milestone plan.</dd>
-
-          <dt>Contact</dt>
-          <dd>Contact info is provided directly to clients during onboarding.</dd>
-        </dl>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>© <span id="year"></span> M Solutions and Creations. Intro page.</div>
-    <div>Simple site for verification purposes.</div>
-  </footer>
+  <div class="footer">© 2026 M Solutions and Creations. Intro page.</div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    console.log('M Solutions and Creations: site ready.');
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      window.scrollTo({ top: el.offsetTop - 16, behavior:'smooth' });
+    }
+    // Scroll reveal
+    const cards = document.querySelectorAll('.card');
+    const io = new IntersectionObserver((entries)=>{
+      for(const e of entries){
+        if(e.isIntersecting){
+          e.target.style.transitionDelay = (Number(e.target.dataset.delay)||0)+'ms';
+          e.target.classList.add('show');
+        }
+      }
+    }, { threshold: .18 });
+    cards.forEach(c=>io.observe(c));
   </script>
 </body>
 </html>
